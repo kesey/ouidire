@@ -1,0 +1,2 @@
+# ouidire
+ouidire hugo version
