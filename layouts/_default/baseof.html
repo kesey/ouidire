@@ -1,0 +1,13 @@
+{{ partial "header" . }}
+<section class="background-dark-white-trans">
+    <section class="wrap-all row">
+    {{ block "side" . }}
+
+    {{ end }}
+
+    {{ block "main" . }}
+
+    {{ end }}
+    </section>
+</section>
+{{ partial "footer" }}

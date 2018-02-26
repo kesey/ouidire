@@ -1,0 +1,10 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "Ouidire"
+theme = "od-hugo-theme"
+[taxonomies]
+    tag = "tags"
+    category = "categories"
+    dj = "djs"
+    flyer = "flyers"
+    playlist = "playlists"

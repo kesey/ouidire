@@ -1,0 +1,82 @@
+<figure>
+    {{ range first 1 .Site.RegularPages.ByDate.Reverse }}<!--get the last visual-->
+        <div class="visual" style="background-image: url('{{ .Params.visual }}');">
+            <a href="{{ .URL }}"></a>
+            <div class="last-infos">
+                {{ if and .Params.categories .Params.number }}
+                    <h6 class="white background-black last-categorie">
+                        <a href="{{ .URL }}"></a>
+                        {{ .Params.categories }} {{ .Params.number }}
+                    </h6></br>
+                {{ end }}
+                {{ if .Params.djs }}
+                    {{ range .Params.djs }}
+                        <h6 class="black background-white last-djs">
+                            {{ . }}
+                            <a href='{{ "/djs/" | relLangURL }}{{ . | urlize }}'></a>
+                        </h6>
+                    {{ end }}
+                {{ end }}
+                </br>
+                <h6 class="white background-pink last-title">
+                    {{ .Title | truncate 120 }}
+                    <a href="{{ .URL }}"></a>
+                </h6>
+                </br>
+                <h6 class="white background-pink last-date">{{ .Date.Format "02/01/2006" }}</h6>
+            </div>
+        </div>
+    {{ end }}
+</figure>
+<!-------------------artists counter---------------------->
+{{ $.Scratch.Set "artistsCounter" 0 }}
+{{ range $track, $taxonomy := .Site.Taxonomies.playlists }}
+    {{ $elements := split $track "/" }}
+    {{ $artist := index $elements 1 }}
+    {{ $artists := $.Scratch.Get "artists" }}
+    {{ if not (in $artists $artist) }}
+        {{ $.Scratch.Add "artists" (slice $artist) }}
+        {{ $.Scratch.Add "artistsCounter" 1 }}
+    {{ end }}
+{{ end }}
+<!-------------------------------------------------------->
+<div class="side-container">
+    <p class="list-description">
+        Des copains, des artistes, des fêtards, des autistes, des labels c'est <strong>Ouïedire!</strong>
+        Des collages à en perdre les oreilles, des mixes en pagaille, absurdes ou panachés, différents univers se croisent dans Ouïedire.
+        <strong>Ouïedire</strong>, ce sont des gens, tout simplement, qui nous font goûter leur substance sonore le temps d'une émission.
+    </p>
+    <ul class="counters row">
+        <li class="col-sm-4">
+            <p class="blue">{{ $.Scratch.Get "artistsCounter" }}</p>
+            <h6>artistes</h6>
+        </li>
+        <li class="col-sm-4">
+            <p class="blue">{{ len .Site.RegularPages }}</p>
+            <h6>émissions</h6>
+        </li>
+        <li class="col-sm-4">
+            <p class="blue">{{ len .Site.Taxonomies.djs }}</p>
+            <h6>djs</h6>
+        </li>
+    </ul>
+    <ul class="categories-container">
+        {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+            <li class="categories">
+                <a href='{{ "/categories/" | relLangURL }}{{ $name | urlize }}' class="background-white {{ $name }}-link">{{ $name }}</a>
+                <p class="{{ $name }}-description"></p>
+            </li></br>
+        {{ end }}
+    </ul>
+    <figure class="last-flyer-container">
+        {{ range first 1 .Site.RegularPages.ByDate.Reverse }}<!--get the last visual-->
+            <div class="last-flyer" style="background-image: url('{{ .Params.flyers }}');">
+                <a href='{{ "/flyers/" | relLangURL }}{{ .Params.flyers | urlize }}'></a>
+            </div>
+        {{ end }}
+    </figure>
+    <div class="all-flyers-container background-white">
+        <span class="fas fa-plus"></span>
+        <a class="black all-flyers" href="{{ .Site.BaseURL }}">voir tous les flyers</a>
+    </div>
+</div>

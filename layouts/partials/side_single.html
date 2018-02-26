@@ -1,0 +1,16 @@
+<p>
+    <strong>Description:</strong>
+    <h5>{{ .Params.description }}</h5>
+</p>
+<hr>
+<ul>
+    <li><strong>Autres émissions par {{ delimit .Params.djs ", " }}:</strong></li>
+    {{ $title := .Title }}
+    {{ range where .Site.RegularPages ".Params.djs" "intersect" .Params.djs }}
+        {{ if ne $title .Title }}
+        <li>
+            <a href="{{.URL}}">{{ .Title }}</a>
+        </li>
+        {{ end }}
+    {{ end }}
+</ul>

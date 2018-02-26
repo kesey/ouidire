@@ -1,0 +1,85 @@
+{{ define "side" }}
+<aside class="side col-sm-3 col-xs-12">
+    {{ partial "side_list" . }}
+</aside>
+{{ end }}
+
+{{ define "main" }}
+<section class="main col-sm-9 col-xs-12">
+    <div class="logo-ouidire">
+        <a href='{{ .Site.BaseURL }}'></a>
+    </div>
+    <div class="player-container background-grey-trans">
+        <h6 class= "slogan white background-black">
+            J'en ai déjà entendu parler quelque part
+        </h6>
+        {{ range first 1 .Site.RegularPages.ByDate.Reverse }}<!--get the last show-->
+            <div class="background-player">
+                <audio controls class="player">
+                    <source src="{{ .Params.audio }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <ul class="last-artists">
+                {{ range $track := .Params.playlists }}<!--get the last artists-->
+                    {{ $elements := split $track "/" }}
+                    {{ $artist := index $elements 1 }}
+                    <li class="last-artist white background-black">
+                        {{ $artist }}
+                    </li>
+                {{ end }}
+                </ul>
+            </div>
+        {{ end }}
+    </div>
+    <ul class="main-list-container row"><!--all shows list-->
+    {{ range .Pages.ByDate.Reverse }}
+        <li class="main-list col-sm-6">
+            {{ if .Params.number }}
+                <h6 class="show-number background-white">
+                    {{ .Params.number }}
+                    <a href='{{ .URL }}' class="black"></a>
+                </h6>
+            {{ end }}
+            {{ if .Params.visual }}
+                <figure class="show-visual-container">
+                    <div class="show-visual" style="background-image: url('{{ .Params.visual }}');">
+                        <a href='{{ .URL }}'></a>
+                    </div>
+                </figure>
+            {{ end }}
+
+            <!--define title color-->
+            {{ $.Scratch.Set "titleColor" "black" }}<!--default color-->
+            {{ if eq .Params.categories "ailleurs" }}
+                {{ $.Scratch.Set "titleColor" "blue" }}
+            {{ else if eq .Params.categories "bagage" }}
+                {{ $.Scratch.Set "titleColor" "pink" }}
+            {{ else if eq .Params.categories "ouidire" }}
+                {{ $.Scratch.Set "titleColor" "black" }}
+            {{ end }}
+            <!---------------------->
+
+            <div class="djs-title-container">
+                {{ if .Params.djs }}
+                    <div class="djs-container">
+                        {{ range .Params.djs }}
+                            <h6 class="djs background-white">
+                                {{ . }}
+                                <a href='{{ "/djs/" | relLangURL }}{{ . | urlize }}'></a>
+                            </h6>
+                        {{ end }}
+                    </div>
+                {{ end }}
+                {{ if .Title }}
+                    <h6 class='title background-white {{ $.Scratch.Get "titleColor" }}'>
+                        {{ .Title }}
+                        <a href='{{ .URL }}'></a>
+                    </h6>
+                {{ end }}
+            </div>
+
+        </li>
+    {{ end }}
+    </ul>
+</section>
+{{ end }}
