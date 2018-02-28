@@ -1,0 +1,43 @@
+{{ if .Params.number }}
+    <h6 class="show-number background-white">
+        {{ .Params.number }}
+        <a href='{{ .URL }}' class="black"></a>
+    </h6>
+{{ end }}
+{{ if .Params.visual }}
+    <figure class="show-visual-container">
+        <div class="show-visual" style="background-image: url('{{ .Params.visual }}');">
+            <a href='{{ .URL }}'></a>
+        </div>
+    </figure>
+{{ end }}
+
+<!--define title color-->
+{{ $.Scratch.Set "titleColor" "black" }}<!--default color-->
+{{ if eq .Params.categories "ailleurs" }}
+{{ $.Scratch.Set "titleColor" "blue" }}
+{{ else if eq .Params.categories "bagage" }}
+{{ $.Scratch.Set "titleColor" "pink" }}
+{{ else if eq .Params.categories "ouidire" }}
+{{ $.Scratch.Set "titleColor" "black" }}
+{{ end }}
+<!---------------------->
+
+<div class="djs-title-container">
+    {{ if .Params.djs }}
+        <div class="djs-container">
+            {{ range .Params.djs }}
+            <h6 class="djs background-white">
+                {{ . }}
+                <a href='{{ "/djs/" | relLangURL }}{{ . | urlize }}'></a>
+            </h6>
+            {{ end }}
+        </div>
+    {{ end }}
+    {{ if .Title }}
+        <h6 class='title background-white {{ $.Scratch.Get "titleColor" }}'>
+            {{ .Title }}
+            <a href='{{ .URL }}'></a>
+        </h6>
+    {{ end }}
+</div>

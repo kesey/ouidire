@@ -2,28 +2,27 @@
     {{ range first 1 .Site.RegularPages.ByDate.Reverse }}<!--get the last visual-->
         <div class="visual" style="background-image: url('{{ .Params.visual }}');">
             <a href="{{ .URL }}"></a>
-            <div class="last-infos">
+            <div class="show-infos">
                 {{ if and .Params.categories .Params.number }}
                     <h6 class="white background-black last-categorie">
                         <a href="{{ .URL }}"></a>
                         {{ .Params.categories }} {{ .Params.number }}
-                    </h6></br>
+                    </h6><br>
                 {{ end }}
                 {{ if .Params.djs }}
                     {{ range .Params.djs }}
-                        <h6 class="black background-white last-djs">
+                        <h6 class="black background-white show-djs">
                             {{ . }}
                             <a href='{{ "/djs/" | relLangURL }}{{ . | urlize }}'></a>
                         </h6>
                     {{ end }}
                 {{ end }}
-                </br>
+                <br>
                 <h6 class="white background-pink last-title">
                     {{ .Title | truncate 120 }}
                     <a href="{{ .URL }}"></a>
                 </h6>
-                </br>
-                <h6 class="white background-pink last-date">{{ .Date.Format "02/01/2006" }}</h6>
+                <h6 class="white background-pink show-date">{{ .Date.Format "02/01/2006" }}</h6>
             </div>
         </div>
     {{ end }}
@@ -41,23 +40,29 @@
 {{ end }}
 <!-------------------------------------------------------->
 <div class="side-container">
-    <p class="list-description">
+    <p class="description">
         Des copains, des artistes, des fêtards, des autistes, des labels c'est <strong>Ouïedire!</strong>
         Des collages à en perdre les oreilles, des mixes en pagaille, absurdes ou panachés, différents univers se croisent dans Ouïedire.
         <strong>Ouïedire</strong>, ce sont des gens, tout simplement, qui nous font goûter leur substance sonore le temps d'une émission.
     </p>
     <ul class="counters row">
         <li class="col-sm-4">
-            <p class="blue">{{ $.Scratch.Get "artistsCounter" }}</p>
-            <h6>artistes</h6>
+            <a href="#">
+                <p class="blue">{{ $.Scratch.Get "artistsCounter" }}</p>
+                <h6>artistes</h6>
+            </a>
         </li>
         <li class="col-sm-4">
-            <p class="blue">{{ len .Site.RegularPages }}</p>
-            <h6>émissions</h6>
+            <a href="#">
+                <p class="blue">{{ len .Site.RegularPages }}</p>
+                <h6>émissions</h6>
+            </a>
         </li>
         <li class="col-sm-4">
-            <p class="blue">{{ len .Site.Taxonomies.djs }}</p>
-            <h6>djs</h6>
+            <a href="#">
+                <p class="blue">{{ len .Site.Taxonomies.djs }}</p>
+                <h6>djs</h6>
+            </a>
         </li>
     </ul>
     <ul class="categories-container">
@@ -65,7 +70,7 @@
             <li class="categories">
                 <a href='{{ "/categories/" | relLangURL }}{{ $name | urlize }}' class="background-white {{ $name }}-link">{{ $name }}</a>
                 <p class="{{ $name }}-description"></p>
-            </li></br>
+            </li>
         {{ end }}
     </ul>
     <figure class="last-flyer-container">

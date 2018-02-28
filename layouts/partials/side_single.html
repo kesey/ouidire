@@ -1,16 +1,49 @@
-<p>
-    <strong>Description:</strong>
-    <h5>{{ .Params.description }}</h5>
-</p>
-<hr>
-<ul>
-    <li><strong>Autres émissions par {{ delimit .Params.djs ", " }}:</strong></li>
-    {{ $title := .Title }}
-    {{ range where .Site.RegularPages ".Params.djs" "intersect" .Params.djs }}
-        {{ if ne $title .Title }}
-        <li>
-            <a href="{{.URL}}">{{ .Title }}</a>
-        </li>
+<figure>
+    <div class="visual" style="background-image: url('{{ .Params.visual }}');">
+        <div class="show-infos">
+            {{ if and .Params.categories .Params.number }}
+                <h6 class="white background-black single-categorie">
+                    {{ .Params.categories }} {{ .Params.number }}
+                </h6><br>
+            {{ end }}
+            {{ if .Params.djs }}
+                {{ range .Params.djs }}
+                    <h6 class="black background-white show-djs single-djs">
+                        {{ . }}
+                        <a href='{{ "/djs/" | relLangURL }}{{ . | urlize }}'></a>
+                    </h6>
+                {{ end }}
+            {{ end }}
+            <br>
+            <h6 class="white background-blue single-title">
+                {{ .Title | truncate 120 }}
+            </h6>
+            <h6 class="white background-blue show-date">{{ .Date.Format "02/01/2006" }}</h6>
+        </div>
+    </div>
+</figure>
+<div class="side-container">
+    <div class="share-download-container">
+        <div class="download background-white">
+            <span class="fas fa-download"></span>
+            <a href="#" class="black">télécharger</a>
+        </div>
+        <div class="share background-white">
+            <span class="fas fa-share-square"></span>
+            <a href="#" class="black">partager</a>
+        </div>
+    </div>
+    <div class="description">
+        <p>{{ .Params.description }}</p>
+    </div>
+    <ul>
+        {{ $title := .Title }}
+        {{ range where .Site.RegularPages ".Params.djs" "intersect" .Params.djs }}
+            {{ if ne $title .Title }}
+                <li>
+                    {{ partial "show_item" . }}
+                </li>
+            {{ end }}
         {{ end }}
-    {{ end }}
-</ul>
+    </ul>
+</div>

@@ -1,75 +1,85 @@
 {{ define "side" }}
-<aside class="side col-sm-3">
-    <h1>side single</h1>
-    {{ $t := where .Site.RegularPages ".Params.djs" "intersect" .Params.djs }}
-    {{ if gt $t 1 }}
-        <div>{{ partial "side_single" . }}</div>
-    {{ end }}
+<aside class="side col-sm-3 col-xs-12">
+    <div class="search-container">
+        <form action="#">
+            <input type="text" placeholder="Recherche.." name="search">
+            <button type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+    {{ partial "side_single" . }}
 </aside>
 {{ end }}
 
 {{ define "main" }}
-<section class="main col-sm-9">
-    <h4>{{ .Title }}</h4>
-    <h4>{{ .Date.Format "02-01-2006" }}</h4>
-    <h4>{{ .Site.BaseURL }}</h4>
-    <h4>{{ .Site.Title }}</h4>
-    <hr>
-    <h5 style="background-color: #ff0f22">{{ .Content }}</h5>
-    <hr>
-    <strong>Tags:</strong>
-    {{ range .Params.tags }}
-        <a href='{{ "/tags/" | relLangURL }}{{ . | urlize }}'>{{ . }}</a>
-    {{ end }}
-    <hr>
-    <strong>Djs:</strong>
-    {{ range .Params.djs }}
-        <a href='{{ "/djs/" | relLangURL }}{{ . | urlize }}'>{{ . }}</a>
-    {{ end }}
-    <hr>
-    <strong>Audio:</strong>
-    <h5>{{ .Site.BaseURL }}{{ .Params.audio }}</h5>
-    <audio controls>
-        <source src="{{ .Site.BaseURL }}{{ .Params.audio }}" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio>
-    <hr>
-    <strong>Playlist:</strong>
-    <ul>
-        {{ range $track := .Params.playlists }}
-                {{ $tracks := split $track "/" }}
-                {{ $timing := index $tracks 0 }}
-                {{ $artist := index $tracks 1 }}
-                {{ $track := index $tracks 2 }}
-            <li>{{ $timing }}</li>
-            <li>
-                {{ $artist }}
-                {{ $.Scratch.Add "artists" (slice $artist) }}
+<section class="main col-sm-9 col-xs-12">
+    <div class="logo-ouidire">
+        <a href='{{ .Site.BaseURL }}'></a>
+    </div>
+    <div class="player-container background-grey-trans">
+        <h6 class= "slogan white background-black">
+            {{ if .Prev }}
+                <a href="{{ .Prev.Permalink }}" class="previous">
+                    <span class="fas fa-angle-left black background-white"></span>
+                    <span>Précédent</span>
+                </a>
+            {{ end }}
+            <span class="slogan-text">J'en ai déjà entendu parler quelque part</span>
+            {{ if .Next }}
+                <a href="{{ .Next.Permalink }}" class="next">
+                    <span>Suivant</span>
+                    <span class="fas fa-angle-right black background-white"></span>
+                </a>
+            {{ end }}
+        </h6>
+        <div class="background-player">
+            <audio controls class="player">
+                <source src="{{ .Params.audio }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            <!--<ul class="last-artists">
+                {{ range $track := .Params.playlists }}&lt;!&ndash;get the artists&ndash;&gt;
+                    {{ $elements := split $track "/" }}
+                    {{ $artist := index $elements 1 }}
+                    <li class="last-artist white background-black">
+                        {{ $artist }}
+                    </li>
+                {{ end }}
+            </ul>-->
+        </div>
+    </div>
+    <ul class="list-container row"><!--Playlist-->
+        {{ range $index, $track := .Params.playlists }}
+            {{ $elements := split $track "/" }}
+            {{ $timing := index $elements 0 }}
+            {{ $artist := index $elements 1 }}
+            {{ $title := index $elements 2 }}
+            <li class="main-list single-list col-sm-6">
+                <a href="#" class="black">
+                    <ul>
+                        <li class="playlist-number background-white black">
+                            {{ add $index 1 }}
+                        </li>
+                        {{ if $timing }}
+                            <li class="playlist-timing background-white black">
+                                {{ $timing }}
+                            </li>
+                        {{ end }}
+                        {{ if $artist }}
+                            <li class="playlist-artist background-white black">
+                                {{ $artist }}
+                            </li>
+                        {{ end }}
+                        {{ if $title }}
+                            <li class="playlist-title">
+                                {{ $title }}
+                            </li>
+                        {{ end }}
+                    </ul>
+                </a>
             </li>
-            <li>{{ $track }}</li>
-            <hr>
         {{ end }}
     </ul>
-    <strong>Artistes:</strong>
-    <ul>
-        {{ range $.Scratch.Get "artists" }}
-            <li>{{ . }}</li>
-        {{ end }}
-    </ul>
-    <hr>
-    <strong>Visuel:</strong>
-    <h5>{{ .Site.BaseURL }}{{ .Params.visual }}</h5>
-    <img src="{{ .Site.BaseURL }}{{ .Params.visual }}" alt="visual">
-    <hr>
-    <strong>Flyer:</strong>
-    <h5>{{.Site.BaseURL}}{{.Params.flyer}}</h5>
-    <img src="{{ .Site.BaseURL}}{{ .Params.flyer }}" alt="flyer">
-    <hr>
-    {{ if .Prev }}
-        <a href="{{ .Prev.Permalink }}">Previous</a>
-    {{ end }}
-    {{ if .Next }}
-        <a href="{{ .Next.Permalink }}">Next</a>
-    {{ end }}
 </section>
 {{ end }}
