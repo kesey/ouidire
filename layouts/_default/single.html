@@ -1,5 +1,5 @@
 {{ define "side" }}
-<aside class="side col-sm-3 col-xs-12">
+<aside class="side col-md-12 col-lg-3">
     <div class="search-container">
         <form action="#">
             <input type="text" placeholder="Recherche.." name="search">
@@ -13,7 +13,7 @@
 {{ end }}
 
 {{ define "main" }}
-<section class="main col-sm-9 col-xs-12">
+<section class="main col-md-12 col-lg-9">
     <div class="logo-ouidire">
         <a href='{{ .Site.BaseURL }}'></a>
     </div>
@@ -22,13 +22,13 @@
             {{ if .Prev }}
                 <a href="{{ .Prev.Permalink }}" class="previous">
                     <span class="fas fa-angle-left black background-white"></span>
-                    <span>Précédent</span>
+                    <span class="slogan-pagination-text">Précédent</span>
                 </a>
             {{ end }}
-            <span class="slogan-text">J'en ai déjà entendu parler quelque part</span>
+            <span>J'en ai déjà entendu parler quelque part</span>
             {{ if .Next }}
                 <a href="{{ .Next.Permalink }}" class="next">
-                    <span>Suivant</span>
+                    <span class="slogan-pagination-text">Suivant</span>
                     <span class="fas fa-angle-right black background-white"></span>
                 </a>
             {{ end }}
@@ -55,7 +55,7 @@
             {{ $timing := index $elements 0 }}
             {{ $artist := index $elements 1 }}
             {{ $title := index $elements 2 }}
-            <li class="main-list single-list col-sm-6">
+            <li class="main-list single-list col-md-12 col-lg-6">
                 <a href="#" class="black">
                     <ul>
                         <li class="playlist-number background-white black">
