@@ -40,7 +40,7 @@
         {{ $title := .Title }}
         {{ range where .Site.RegularPages ".Params.djs" "intersect" .Params.djs }}
             {{ if ne $title .Title }}
-                <li>
+                <li class="side-list">
                     {{ partial "show_item" . }}
                 </li>
             {{ end }}
